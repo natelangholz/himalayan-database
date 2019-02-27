@@ -1,1 +1,1 @@
-# himalyan-database
+# himalayan-database
