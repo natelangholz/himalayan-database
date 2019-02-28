@@ -8,7 +8,6 @@ peaks <- read.dbf("Himalayan Database/HIMDATA/peaks.DBF")
 ###########################################################
 #geocode for lat long
 
-register_google(key = 'AIzaSyB-EDrn9931fvpeBp1EBWUY2OB08dk7ekw')
 mountain_long_lat <- NULL
 for(i in 1:dim(peaks)[1]){
   mountain_long_lat <- rbind(mountain_long_lat,geocode(paste0(peaks$PKNAME[i],', Nepal')))
