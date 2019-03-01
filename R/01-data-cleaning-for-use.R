@@ -80,13 +80,18 @@ peaks[which(peaks$lon < 0),c('lat','lon')] <- c(NA, NA)
 
 #6 not in Nepal
 #Sano Kailash; correct in china
-#Lasa-- Is this Island Peak????
-#Mariyang West
-#Bhairab Takura
-#Patrasi Himal
+#Lasa-- Is this Island Peak???? Or just generally LLhasa?
+peaks[peaks$PEAKID=="LASA",c('lat','lon')] <- c(NA, NA)
+#Mariyang West; not sure--can't find real coords
+peaks[peaks$PEAKID=="MARW",c('lat','lon')] <- c(NA, NA)
+#Bhairab Takura; again no idea
+peaks[peaks$PEAKID=="BTAK",c('lat','lon')] <- c(NA, NA)
+#Patrasi Himal; not clear
+peaks[peaks$PEAKID=="PATR",c('lat','lon')] <- c(NA, NA)
+#Tongu; somewhere near dhaluagari but no lat long
+peaks[peaks$PEAKID=="TONG",c('lat','lon')] <- c(NA, NA)
 
 
-#Tongu
 
 ###########################################################
 
