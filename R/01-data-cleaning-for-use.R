@@ -82,6 +82,8 @@ peaks[which(peaks$lon < 0),c('lat','lon')] <- c(NA, NA)
 #Sano Kailash; correct in china
 #Lasa-- Is this Island Peak???? Or just generally LLhasa?
 peaks[peaks$PEAKID=="LASA",c('lat','lon')] <- c(NA, NA)
+#Mariyang; not sure--both in china/bhutan??
+peaks[peaks$PEAKID=="MARI",c('lat','lon')] <- c(NA, NA)
 #Mariyang West; not sure--can't find real coords
 peaks[peaks$PEAKID=="MARW",c('lat','lon')] <- c(NA, NA)
 #Bhairab Takura; again no idea
@@ -91,7 +93,7 @@ peaks[peaks$PEAKID=="PATR",c('lat','lon')] <- c(NA, NA)
 #Tongu; somewhere near dhaluagari but no lat long
 peaks[peaks$PEAKID=="TONG",c('lat','lon')] <- c(NA, NA)
 
-
+#at least they're all in Nepal region...maybe off but close enough for now
 
 ###########################################################
 
@@ -127,6 +129,11 @@ members %>% filter(LNAME =="Jornet Burgada")
 members %>% filter(LNAME =="Steck")
 #Renan Ozturk
 members %>% filter(LNAME =="Ozturk")
+
+#unique id by first name,last name, and year of birth; looks like it works
+members %<>% 
+  mutate(CLIMBERID = group_indices(.,FNAME,LNAME,YOB)) 
+
 
 ###########################################################
 #expedition records

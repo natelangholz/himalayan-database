@@ -4,17 +4,6 @@
 ###########################################################
 library(leaflet)
 
-m=leaflet()
-
-m=addTiles(m)
-
-m=setView(m, lng = 86.9, lat = 28.0, zoom = 11)
-m
-
-
-m=leaflet() %>% addTiles() %>% setView( lng = 166.45, lat = -22.25, zoom = 8 )
-m
-
 
 mybins=seq(5000, 9000, by=5000)
 mypalette = colorBin( palette="YlOrBr", domain=peaks$HEIGHTM, na.color="transparent", bins=mybins)
@@ -25,7 +14,7 @@ mytext=paste( "Name: ", peaks$PKNAME, "<br/>", "Height: ", peaks$HEIGHTM, sep=""
 
 leaflet(peaks) %>% 
   addTiles()  %>% 
-  setView( lat=28, lng=86.9 , zoom=4) %>%
+  setView( lat=28.5, lng=84.6 , zoom=6) %>%
   addProviderTiles("CartoDB.DarkMatter") %>%
   addCircleMarkers(~lon, ~lat, 
                    fillColor = ~mypalette(HEIGHTM), fillOpacity = 0.7, color="white", radius=8, stroke=FALSE,
