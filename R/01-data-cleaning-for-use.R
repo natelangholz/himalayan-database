@@ -1,4 +1,4 @@
-pacman::p_load(foreign, ggmap,magrittr,dplyr)
+pacman::p_load(foreign,magrittr,dplyr,feather)
 
 #Nepal Himalaya
 #468 peaks
@@ -94,6 +94,7 @@ peaks[peaks$PEAKID=="PATR",c('lat','lon')] <- c(NA, NA)
 peaks[peaks$PEAKID=="TONG",c('lat','lon')] <- c(NA, NA)
 
 #at least they're all in Nepal region...maybe off but close enough for now
+write_feather(peaks,path = "data/peaks.feather")
 
 ###########################################################
 
@@ -131,17 +132,25 @@ members %>% filter(LNAME =="Steck")
 members %>% filter(LNAME =="Ozturk")
 
 #unique id by first name,last name, and year of birth; looks like it works
+#what should I do with unknown and Pasang Sherpa...they have different attributes
 members %<>% 
   mutate(CLIMBERID = group_indices(.,FNAME,LNAME,YOB)) 
 
+sort(table(members$CLIMBERID),decreasing = TRUE)
+
+members %>% filter(CLIMBERID %in% c(37032,29639,25506,12009,26073)) %>% View()
+
+write_feather(members, path = "data/members.feather")
 
 ###########################################################
 #expedition records
 #9959 expeditions; warnings..not sure what they mean
 exped <- read.dbf("Himalayan Database/HIMDATA/exped.DBF")
+write_feather(exped, path = "data/exped.feather" )
 
 #literature records; where are the actual notes??
 refer <- read.dbf("Himalayan Database/HIMDATA/refer.DBF")
+write_feather(refer, path = "data/refer.feather")
 
 #nothing??
 filters <- read.dbf("Himalayan Database/HIMDATA/filters.DBF")

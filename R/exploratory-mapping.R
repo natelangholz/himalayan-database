@@ -1,8 +1,11 @@
 #do some mapping
 #load peaks with lat/lon
+pacman::p_load(feather,leaflet, ggmap,magrittr,dplyr)
+
+
+peaks <- read_feather("data/peaks.feather")
 
 ###########################################################
-library(leaflet)
 
 
 mybins=seq(5000, 9000, by=5000)
