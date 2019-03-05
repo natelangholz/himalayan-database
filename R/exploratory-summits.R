@@ -38,7 +38,7 @@ sum(everest_summitters$SUMMITS)
 
 yearly_summits <- members %>%
   group_by(PEAKID,MYEAR) %>%
-  summarise(SUMMITS = sum(MSUCCESS)) %>%
+  summarise(CLIMBERS = n(),HIRED = sum(HIRED),SHERPA = sum(SHERPA), SUMMITS = sum(MSUCCESS),DEATH = sum(DEATH)) %>%
   arrange(desc(MYEAR)) %>% 
   ungroup()
 
