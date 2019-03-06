@@ -24,3 +24,61 @@ leaflet(peaks) %>%
                    label = mytext,
                    labelOptions = labelOptions( style = list("font-weight" = "normal", padding = "3px 8px"), textsize = "13px", direction = "auto")
   ) 
+
+#https://leaflet-extras.github.io/leaflet-providers/preview/
+
+###########################################################
+
+# Easy to make it interactive!
+library(plotly)
+library(viridis)
+
+NEPAL <- map_data(map = "world", region = "NEPAL")
+
+
+mybreaks=c(0.02, 0.04, 0.08, 1, 7)
+peaks %>%
+  arrange(HEIGHTM) %>%
+  mutate(HEIGHTM=HEIGHTM/1000) %>%
+  ggplot() +
+  geom_polygon(data = NEPAL, aes(x=long, y = lat, group = group), fill="grey", alpha=0.3) +
+  geom_point(  aes(x=long, y=lat, size=pop, color=pop, alpha=pop), shape=20, stroke=FALSE) +
+  scale_size_continuous(name="Population (in M)", trans="log", range=c(1,12), breaks=mybreaks) +
+  scale_alpha_continuous(name="Population (in M)", trans="log", range=c(0.1, .9), breaks=mybreaks) +
+  scale_color_viridis(option="magma", trans="log", breaks=mybreaks, name="Population (in M)" ) +
+  theme_void() + ylim(50,59) + coord_map() + 
+  guides( colour = guide_legend()) +
+  ggtitle("The 1000 biggest cities in the UK") +
+  theme(
+    legend.position = c(0.85, 0.8),
+    text = element_text(color = "#22211d"),
+    plot.background = element_rect(fill = "#f5f5f2", color = NA), 
+    panel.background = element_rect(fill = "#f5f5f2", color = NA), 
+    legend.background = element_rect(fill = "#f5f5f2", color = NA),
+    plot.title = element_text(size= 16, hjust=0.1, color = "#4e4d47", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")),
+  )
+
+
+###########################################################
+
+# plot
+p=peaks %>%
+  
+  arrange(HEIGHTM) %>%
+  #mutate( name=factor(name, unique(name))) %>%
+  mutate( mytext=paste("PEAK: ", PEAKID, "\n", "HEIGHT M: ", HEIGHTM, sep="")) %>%  # This prepare the text displayed on hover.
+  # Makte the static plot calling this text:
+  ggplot() +
+  geom_polygon(data = NEPAL, aes(x=long, y = lat, group = group), fill="grey", alpha=0.3) +
+  geom_point(data = peaks,aes(x=lon, y=lat, size=HEIGHTM, color=HEIGHTM, text=mytext, alpha=HEIGHTM) ) +
+  
+  scale_size_continuous(range=c(1,15)) +
+  scale_color_viridis(option="inferno", trans="log" ) +
+  scale_alpha_continuous(trans="log") +
+  theme_void() +
+  ylim(50,59) +
+  coord_map() +
+  theme(legend.position = "none")
+
+p=ggplotly(p, tooltip="text")
+p

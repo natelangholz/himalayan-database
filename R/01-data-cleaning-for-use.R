@@ -22,9 +22,15 @@ load('mountain_long_lat.Rdata')
 peaks %<>% mutate(lat = mountain_long_lat$lat, lon = mountain_long_lat$lon)
 
 
+
 ###########################################################
 #lets try to fix some of that geocoding...
 peaks %<>% arrange(desc(HEIGHTM))
+
+
+#8000M main summits
+peaks %<>%
+  mutate(MSUMMIT8K = if_else(PEAKID %in% c("EVER","KANG","LHOT","MAKA","CHOY","DHA1","MANA","ANN1"),1,0))
 
 peaks %>% filter(lon < 0) %>% select(PEAKID,PKNAME,lat,lon,HEIGHTM)
 
