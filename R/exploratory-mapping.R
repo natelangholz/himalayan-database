@@ -30,6 +30,12 @@ leaflet(peaks) %>%
 
 #https://leaflet-extras.github.io/leaflet-providers/preview/
 ?addRasterImage()
+
+
+
+#https://rstudio.github.io/leaflet/markers.html
+
+
 ###########################################################
 
 # Easy to make it interactive!
@@ -84,3 +90,6 @@ p=peaks %>%
 
 p=ggplotly(p, tooltip="text")
 p
+
+
+
