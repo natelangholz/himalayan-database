@@ -1,4 +1,4 @@
-pacman::p_load(foreign,magrittr,dplyr,feather)
+pacman::p_load(foreign,magrittr,dplyr,feather,readr)
 
 #Nepal Himalaya
 #468 peaks
@@ -101,6 +101,8 @@ peaks[peaks$PEAKID=="TONG",c('lat','lon')] <- c(NA, NA)
 
 #at least they're all in Nepal region...maybe off but close enough for now
 write_feather(peaks,path = "data/peaks.feather")
+write_csv(peaks,path = "data/peaks.csv")
+
 
 ###########################################################
 
@@ -147,16 +149,22 @@ sort(table(members$CLIMBERID),decreasing = TRUE)
 members %>% filter(CLIMBERID %in% c(37032,29639,25506,12009,26073)) %>% View()
 
 write_feather(members, path = "data/members.feather")
+write_csv(members,path = "data/members.csv")
+
 
 ###########################################################
 #expedition records
 #9959 expeditions; warnings..not sure what they mean
 exped <- read.dbf("Himalayan Database/HIMDATA/exped.DBF")
 write_feather(exped, path = "data/exped.feather" )
+write_csv(exped,path = "data/exped.csv")
+
 
 #literature records; where are the actual notes??
 refer <- read.dbf("Himalayan Database/HIMDATA/refer.DBF")
 write_feather(refer, path = "data/refer.feather")
+write_csv(refer,path = "data/refer.csv")
+
 
 #nothing??
 filters <- read.dbf("Himalayan Database/HIMDATA/filters.DBF")

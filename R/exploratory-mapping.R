@@ -1,9 +1,10 @@
 #do some mapping
 #load peaks with lat/lon
-pacman::p_load(feather,leaflet, ggmap,magrittr,dplyr)
+pacman::p_load(readr,leaflet, ggmap,magrittr,dplyr)
 
 
-peaks <- read_feather("data/peaks.feather")
+peaks <- read_csv("data/peaks.csv")
+
 
 ###########################################################
 
@@ -20,7 +21,7 @@ mytext=paste( "Name: ", peaks$PKNAME, "<br/>", "Height: ", peaks$HEIGHTM, sep=""
 
 leaflet(peaks) %>% 
   addTiles()  %>% 
-  setView( lat=28.5, lng=84.6 , zoom=6) %>%
+  setView( lat=28.5, lng=84.6 , zoom=7) %>%
   addProviderTiles("CartoDB.DarkMatter") %>%
   addCircleMarkers(~lon, ~lat, 
                    fillColor = ~mypalette(HEIGHTM), fillOpacity = 0.7, color="white", radius=8, stroke=FALSE,
@@ -31,6 +32,21 @@ leaflet(peaks) %>%
 #https://leaflet-extras.github.io/leaflet-providers/preview/
 ?addRasterImage()
 
+####hmmmm
+
+  mountain = makeIcon(iconUrl = "icons/kisspng-everest-base-camp.jpg", 18, 18)
+  mountain = makeIcon("./icons/mountain-512.png", 18, 18)
+  
+
+leaflet(peaks) %>% 
+  addTiles()  %>% 
+  setView( lat=28.5, lng=84.6 , zoom=6.5) %>%
+  addProviderTiles("CartoDB.DarkMatter") %>%
+  addMarkers(~lon, ~lat, 
+                   icon = ~mountain,
+                   label = mytext,
+                   labelOptions = labelOptions( style = list("font-weight" = "normal", padding = "3px 8px"), textsize = "13px", direction = "auto")
+  ) 
 
 
 #https://rstudio.github.io/leaflet/markers.html
@@ -76,10 +92,10 @@ p=peaks %>%
   arrange(HEIGHTM) %>%
   #mutate( name=factor(name, unique(name))) %>%
   mutate( mytext=paste("PEAK: ", PEAKID, "\n", "HEIGHT M: ", HEIGHTM, sep="")) %>%  # This prepare the text displayed on hover.
-  # Makte the static plot calling this text:
+  # Make the static plot calling this text:
   ggplot() +
   geom_polygon(data = NEPAL, aes(x=long, y = lat, group = group), fill="grey", alpha=0.3) +
-  geom_point(aes(x=lon, y=lat, size=HEIGHTM/1000, color=HEIGHTM, text=mytext, alpha=HEIGHTM) , shape = 2 ) +
+  geom_point(aes(x=lon, y=lat, size=HEIGHTM/500, color=HEIGHTM, text=mytext, alpha=HEIGHTM) , shape = 2 ) +
   
   scale_size_continuous(range=c(1,4)) +
   scale_color_viridis(option="inferno", trans="log" ) +

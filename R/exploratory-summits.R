@@ -1,10 +1,8 @@
-pacman::p_load(feather,leaflet, ggmap,magrittr,dplyr)
+pacman::p_load(readr,leaflet, ggmap,magrittr,dplyr)
 
 
-members <- read_feather("data/members.feather")
+members <- read_csv("data/members.csv")
 
-#this is dumb; but works
-members$MYEAR <- as.numeric(levels(members$MYEAR))[as.numeric(members$MYEAR)]
 
 #total number of climber ids; 37034
 length(unique(members$CLIMBERID))
@@ -42,7 +40,7 @@ yearly_summits <- members %>%
   arrange(desc(MYEAR)) %>% 
   ungroup()
 
-plot( %>% filter(PEAKID == 'EVER') %>% select(SUMMITS))
+plot(yearly_summits %>% filter(PEAKID == 'EVER') %>% select(SUMMITS))
 
 
 
@@ -57,8 +55,20 @@ plot( %>% filter(PEAKID == 'EVER') %>% select(SUMMITS))
 9 MAKA       484
 10 HIML       464
 
-e1 <- which(yearly_summits$PEAKID == 'MANA')
+e1 <- which(yearly_summits$PEAKID == 'CHOY')
 plot(seq(1900,2020,10),seq(100,1300,100),ylim = c(0,1000),type = 'n',ylab = 'Summits',xlab = 'Year')
-points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1])
-points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],col = 'black')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'black')
 
+e1 <- which(yearly_summits$PEAKID == 'EVER')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],col = 'red')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'red')
+
+e1 <- which(yearly_summits$PEAKID == 'AMAD')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],col = 'light blue')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'light blue')
+
+
+e1 <- which(yearly_summits$PEAKID == 'MANA')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],col = 'maroon')
+points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'maroon')
