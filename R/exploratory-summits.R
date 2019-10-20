@@ -72,3 +72,22 @@ points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'li
 e1 <- which(yearly_summits$PEAKID == 'MANA')
 points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],col = 'maroon')
 points(yearly_summits$MYEAR[e1],yearly_summits$SUMMITS[e1],type = 'l', col = 'maroon')
+
+
+#death rates by mountain
+death_summary <-members %>% 
+  group_by(PEAKID) %>%
+  tally() %>%
+  arrange(desc(n)) %>%
+  left_join(members %>% 
+              group_by(PEAKID) %>%  
+              summarise(MT_DEATHS = sum(DEATH)) %>%
+              filter(MT_DEATHS > 0) %>%
+              arrange(desc(MT_DEATHS)), by = 'PEAKID') %>%
+  mutate(DEATH_RATE = MT_DEATHS/n) %>%
+  arrange(desc(DEATH_RATE))
+
+death_summary %>% View()  
+
+
+
